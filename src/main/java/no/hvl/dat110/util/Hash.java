@@ -25,6 +25,7 @@ public class Hash {
 			byte[] hashBytes = instance.digest(entity.getBytes());
 			// Convert byte array to BigInteger
             hashint = new BigInteger(1, hashBytes);
+
 		} catch (NoSuchAlgorithmException e) {
 			// Handle NoSuchAlgorithmException
 			e.printStackTrace();
@@ -41,16 +42,17 @@ public class Hash {
 	}
 	
 	public static BigInteger addressSize() {
-		
+		//md5 is a 128-bit hash
+		int numberOfBits = 128;
+		//thus the address size will be 2^128
+		return BigInteger.valueOf(2).pow(numberOfBits);
+
 		// Task: compute the address size of MD5
-		
 		// compute the number of bits = bitSize()
-		
 		// compute the address size = 2 ^ number of bits
-		
 		// return the address size
-		
-		return null;
+		/*complete*/
+
 	}
 	
 	public static int bitSize() {

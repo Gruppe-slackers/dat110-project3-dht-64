@@ -6,6 +6,7 @@ package no.hvl.dat110.util;
  *
  */
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -14,23 +15,29 @@ import java.security.NoSuchAlgorithmException;
 public class Hash { 
 	
 	
-	public static BigInteger hashOf(String entity) {	
+	public static BigInteger hashOf(String entity) {
 		
 		BigInteger hashint = null;
-		
-		// Task: Hash a given string using MD5 and return the result as a BigInteger.
-		
-		// we use MD5 with 128 bits digest
-		
-		// compute the hash of the input 'entity'
-		
-		// convert the hash into hex format
-		
-		// convert the hex into BigInteger
-		
-		// return the BigInteger
-		
+		try {
+			// Get instance of MD5 message digest algorithm
+			MessageDigest instance = MessageDigest.getInstance("MD5");
+			// Compute the hash value of the input string
+			byte[] hashBytes = instance.digest(entity.getBytes());
+			// Convert byte array to BigInteger
+            hashint = new BigInteger(1, hashBytes);
+		} catch (NoSuchAlgorithmException e) {
+			// Handle NoSuchAlgorithmException
+			e.printStackTrace();
+			return BigInteger.ZERO; // Or any other appropriate action
+		}
 		return hashint;
+		// Task: Hash a given string using MD5 and return the result as a BigInteger.
+		// we use MD5 with 128 bits digest
+		// compute the hash of the input 'entity'
+		// convert the hash into hex format
+		// convert the hex into BigInteger
+		// return the BigInteger
+		/*complete*/
 	}
 	
 	public static BigInteger addressSize() {

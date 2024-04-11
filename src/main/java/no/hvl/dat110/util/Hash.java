@@ -54,7 +54,7 @@ public class Hash {
 		/*complete*/
 
 	}
-	
+	//not used and not tested??
 	public static int bitSize() {
 		
 		int digestlen = 0;

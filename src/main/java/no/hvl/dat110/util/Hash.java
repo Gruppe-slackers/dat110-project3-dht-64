@@ -60,6 +60,7 @@ public class Hash {
 	}
 
 	public static int bitSize() {
+		// Task: find the digest length
 		try {
 			MessageDigest md = MessageDigest.getInstance(algorithm);
 			int digestlen = md.getDigestLength();

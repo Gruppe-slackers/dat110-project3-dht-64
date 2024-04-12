@@ -5,9 +5,7 @@ package no.hvl.dat110.chordoperations;
 
 import java.math.BigInteger;
 import java.rmi.RemoteException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,18 +41,17 @@ public class ChordLookup {
 			return null;
 		}
 
-		// int nodeNumber = Integer.parseInt(this.node.getNodeName().substring(this.node.getNodeName().length() -1));
-		// BigInteger nodeId = Hash.hashOf(this.node.getNodeName().replaceFirst("\\d$", String.valueOf(nodeNumber + 1)));
-
-		BigInteger nodeIdPlus1 = this.node.getNodeID().add(BigInteger.valueOf(1));
-		BigInteger succId = this.node.getSuccessor().getNodeID();
-		if (Util.checkInterval(key, nodeIdPlus1, succId)) {
+		BigInteger lower = this.node.getNodeID().add(BigInteger.ONE);
+		BigInteger upper = node.findSuccessor(key).getNodeID();
+		if (Util.checkInterval(key, lower, upper)) {
 			return node.getSuccessor();
 		}
 		/* if out node dont contain it we find our highest predecessor with that key*/
 		NodeInterface highest = this.findHighestPredecessor(key);
-		return highest.findSuccessor(key);
-
+		if(highest != null) {
+			return highest.findSuccessor(key);
+		}
+		return null;
 	}
 	
 	/**
@@ -69,8 +66,19 @@ public class ChordLookup {
 		 for each finger, obtain a stub from the registry
 		 check that finger is a member of the set {nodeID+1,...,ID-1} i.e. (nodeID+1 <= finger <= key-1) using the ComputeLogic
 		 if logic returns true, then return the finger (means finger is the closest to key) */
-		
-		return (NodeInterface) node;			
+
+		List<NodeInterface> fingerTable = node.getFingerTable();
+		for (int i = fingerTable.size() -1; i > 0; i--) {
+			NodeInterface finger = fingerTable.get(i);
+			BigInteger fingerID = finger.getNodeID();
+			BigInteger lower = node.getNodeID().add(BigInteger.ONE);
+			BigInteger upper = ID.subtract(BigInteger.ONE);
+			if (Util.checkInterval(fingerID, lower, upper)) {
+                return Util.getProcessStub(finger.getNodeName(), finger.getPort());
+			}
+		}
+
+		return null;
 	}
 	
 	public void copyKeysFromSuccessor(NodeInterface succ) {

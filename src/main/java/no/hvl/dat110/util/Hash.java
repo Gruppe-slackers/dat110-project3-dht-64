@@ -12,11 +12,24 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Hash { 
-	
-	
+public class Hash {
+
+	private static String algorithm = "MD5";
+
+	public static void setAlgorithm(String algorithm) {
+		Hash.algorithm = algorithm;
+	}
+
 	public static BigInteger hashOf(String entity) {
-		
+		 /* Task: Hash a given string using MD5 and return the result as a BigInteger.
+		 we use MD5 with 128 bits digest
+		 compute the hash of the input 'entity'
+		 convert the hash into hex format
+		 convert the hex into BigInteger
+		 return the BigInteger`*/
+
+		// completed: true;
+
 		BigInteger hashint = null;
 		try {
 			// Get instance of MD5 message digest algorithm
@@ -32,36 +45,29 @@ public class Hash {
 			return BigInteger.ZERO; // Or any other appropriate action
 		}
 		return hashint;
-		// Task: Hash a given string using MD5 and return the result as a BigInteger.
-		// we use MD5 with 128 bits digest
-		// compute the hash of the input 'entity'
-		// convert the hash into hex format
-		// convert the hex into BigInteger
-		// return the BigInteger
-		/*complete*/
 	}
 	
 	public static BigInteger addressSize() {
-		//md5 is a 128-bit hash
-		int numberOfBits = 128;
-		//thus the address size will be 2^128
-		return BigInteger.valueOf(2).pow(numberOfBits);
+		/*Task: compute the address size of MD5
+	 	* compute the number of bits = bitSize()
+	 	* compute the address size = 2 ^ number of bits
+	 	* return the address size */
+		//completed: true;
 
-		// Task: compute the address size of MD5
-		// compute the number of bits = bitSize()
-		// compute the address size = 2 ^ number of bits
-		// return the address size
-		/*complete*/
-
+		int addressSize = bitSize();
+		//md5 is a 128-bit hash, thus the address size will be 2^128
+		return BigInteger.valueOf(2).pow(addressSize);
 	}
-	//not used and not tested??
+
 	public static int bitSize() {
-		
-		int digestlen = 0;
-		
-		// find the digest length
-		
-		return digestlen*8;
+		try {
+			MessageDigest md = MessageDigest.getInstance(algorithm);
+			int digestlen = md.getDigestLength();
+			return digestlen * 8; //konverterer fra bytes til bits
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return -1;
+		}
 	}
 	
 	public static String toHex(byte[] digest) {

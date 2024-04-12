@@ -42,7 +42,7 @@ public class ChordLookup {
 		}
 
 		BigInteger lower = this.node.getNodeID().add(BigInteger.ONE);
-		BigInteger upper = node.findSuccessor(key).getNodeID();
+		BigInteger upper = node.getSuccessor().getNodeID();
 		if (Util.checkInterval(key, lower, upper)) {
 			return node.getSuccessor();
 		}

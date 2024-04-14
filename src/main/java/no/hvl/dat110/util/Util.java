@@ -50,23 +50,12 @@ public class Util {
 		Your logic should return true. Further, we can check if id = 6 lies between (6,2).
 		A correct implementation will return true
 		 */
-		BigInteger modulo = Hash.addressSize();
-
 		// Task: given an identifier, id: check whether pred < id <= node
-		boolean check = false;
-
-		if(lower.compareTo(upper) > 0) {
-			if(id.compareTo(upper) <= 0){
-				id = id.add(modulo);
-			}
-			upper = upper.add(modulo);
+		if (lower.compareTo(upper) < 0) {
+			return (id.compareTo(lower) >= 0) && (id.compareTo(upper) <= 0);
+		} else {
+			return (id.compareTo(lower) >= 0 || id.compareTo(upper) <= 0);
 		}
-
-		if ((lower.compareTo(id) <= 0) && (id.compareTo(upper) <= 0)) {
-			check = true;
-		}
-
-		return check;
 	}
 	
 	public static List<String> toString(List<NodeInterface> list) throws RemoteException {
